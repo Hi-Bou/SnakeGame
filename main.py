@@ -1,8 +1,7 @@
-import time
-from math import trunc
-
-import pygame, sys, random
-from pygame import K_SPACE
+import pygame
+import sys
+import os
+import random
 from pygame.math import Vector2
 
 class SNAKE:
@@ -16,24 +15,24 @@ class SNAKE:
         self.load_files()
 
     def load_files(self):
-        self.head_up = pygame.image.load('Graphics/snake/head_up.png').convert_alpha()
-        self.head_down = pygame.image.load('Graphics/snake/head_down.png').convert_alpha()
-        self.head_right = pygame.image.load('Graphics/snake/head_right.png').convert_alpha()
-        self.head_left = pygame.image.load('Graphics/snake/head_left.png').convert_alpha()
+        self.head_up = pygame.image.load(resource_path('Graphics/snake/head_up.png')).convert_alpha()
+        self.head_down = pygame.image.load(resource_path('Graphics/snake/head_down.png')).convert_alpha()
+        self.head_right = pygame.image.load(resource_path('Graphics/snake/head_right.png')).convert_alpha()
+        self.head_left = pygame.image.load(resource_path('Graphics/snake/head_left.png')).convert_alpha()
 
-        self.tail_up = pygame.image.load('Graphics/snake/tail_up.png').convert_alpha()
-        self.tail_down = pygame.image.load('Graphics/snake/tail_down.png').convert_alpha()
-        self.tail_right = pygame.image.load('Graphics/snake/tail_right.png').convert_alpha()
-        self.tail_left = pygame.image.load('Graphics/snake/tail_left.png').convert_alpha()
+        self.tail_up = pygame.image.load(resource_path('Graphics/snake/tail_up.png')).convert_alpha()
+        self.tail_down = pygame.image.load(resource_path('Graphics/snake/tail_down.png')).convert_alpha()
+        self.tail_right = pygame.image.load(resource_path('Graphics/snake/tail_right.png')).convert_alpha()
+        self.tail_left = pygame.image.load(resource_path('Graphics/snake/tail_left.png')).convert_alpha()
 
-        self.body_vertical = pygame.image.load('Graphics/snake/body_vertical.png').convert_alpha()
-        self.body_horizontal = pygame.image.load('Graphics/snake/body_horizontal.png').convert_alpha()
+        self.body_vertical = pygame.image.load(resource_path('Graphics/snake/body_vertical.png')).convert_alpha()
+        self.body_horizontal = pygame.image.load(resource_path('Graphics/snake/body_horizontal.png')).convert_alpha()
 
-        self.body_tr = pygame.image.load('Graphics/snake/body_tr.png').convert_alpha()
-        self.body_tl = pygame.image.load('Graphics/snake/body_tl.png').convert_alpha()
-        self.body_br = pygame.image.load('Graphics/snake/body_br.png').convert_alpha()
-        self.body_bl = pygame.image.load('Graphics/snake/body_bl.png').convert_alpha()
-        self.crunch_sound = pygame.mixer.Sound('Sounds/crunch.wav')
+        self.body_tr = pygame.image.load(resource_path('Graphics/snake/body_tr.png')).convert_alpha()
+        self.body_tl = pygame.image.load(resource_path('Graphics/snake/body_tl.png')).convert_alpha()
+        self.body_br = pygame.image.load(resource_path('Graphics/snake/body_br.png')).convert_alpha()
+        self.body_bl = pygame.image.load(resource_path('Graphics/snake/body_bl.png')).convert_alpha()
+        self.crunch_sound = pygame.mixer.Sound(resource_path('Sounds/crunch.wav'))
 
     def draw_snake(self):
         self.update_head_graphics()
@@ -140,22 +139,22 @@ class MAIN:
 
     def load_files(self):
         #images
-        self.bob1 = pygame.image.load('Graphics/end/bob1.png').convert_alpha()
-        self.bob2 = pygame.image.load('Graphics/end/bob2.png').convert_alpha()
-        self.bob3 = pygame.image.load('Graphics/end/bob3.png').convert_alpha()
-        self.bob4 = pygame.image.load('Graphics/end/bob4.png').convert_alpha()
-        self.bob5 = pygame.image.load('Graphics/end/bob5.png').convert_alpha()
-        self.bob6 = pygame.image.load('Graphics/end/bob6.png').convert_alpha()
-        self.bob7 = pygame.image.load('Graphics/end/bob7.png').convert_alpha()
-        self.bob8 = pygame.image.load('Graphics/end/bob8.png').convert_alpha()
-        self.bob9 = pygame.image.load('Graphics/end/bob9.png').convert_alpha()
-        self.cow1 = pygame.image.load('Graphics/end/cow.png').convert_alpha()
-        self.flash = pygame.image.load('Graphics/end/flash.png').convert_alpha()
-        self.beer = pygame.image.load('Graphics/beer.png').convert_alpha()
+        self.bob1 = pygame.image.load(resource_path('Graphics/end/bob1.png')).convert_alpha()
+        self.bob2 = pygame.image.load(resource_path('Graphics/end/bob2.png')).convert_alpha()
+        self.bob3 = pygame.image.load(resource_path('Graphics/end/bob3.png')).convert_alpha()
+        self.bob4 = pygame.image.load(resource_path('Graphics/end/bob4.png')).convert_alpha()
+        self.bob5 = pygame.image.load(resource_path('Graphics/end/bob5.png')).convert_alpha()
+        self.bob6 = pygame.image.load(resource_path('Graphics/end/bob6.png')).convert_alpha()
+        self.bob7 = pygame.image.load(resource_path('Graphics/end/bob7.png')).convert_alpha()
+        self.bob8 = pygame.image.load(resource_path('Graphics/end/bob8.png')).convert_alpha()
+        self.bob9 = pygame.image.load(resource_path('Graphics/end/bob9.png')).convert_alpha()
+        self.cow1 = pygame.image.load(resource_path('Graphics/end/cow.png')).convert_alpha()
+        self.flash = pygame.image.load(resource_path('Graphics/end/flash.png')).convert_alpha()
+        self.beer = pygame.image.load(resource_path('Graphics/beer.png')).convert_alpha()
         #sounds
-        self.bang = pygame.mixer.Sound('Sounds/BANG.wav')
-        self.symphony = pygame.mixer.Sound('Sounds/SYMPHONYYYYY.wav')
-        self.seeitcoming = pygame.mixer.Sound('Sounds/youllNeverSeeItCOMIIIIING.wav')
+        self.bang = pygame.mixer.Sound(resource_path('Sounds/BANG.wav'))
+        self.symphony = pygame.mixer.Sound(resource_path('Sounds/SYMPHONYYYYY.wav'))
+        self.seeitcoming = pygame.mixer.Sound(resource_path('Sounds/youllNeverSeeItCOMIIIIING.wav'))
 
     def draw_elements(self):
         self.draw_grass()
@@ -222,14 +221,14 @@ class MAIN:
     def end(self):
         chance = random.randint(0, 100)
         if chance < 90:
-            bob_images = [self.bob1, self.bob2, self.bob3, self.bob4, self.bob5, self.bob6, self.bob7, self.bob8, self.bob9]
+            bob_images = [self.bob1, self.bob2, self.bob3, self.bob4, self.bob5, self.bob6, self.bob7, self.bob8, self.bob9, self.cow1]
             selected_bob = random.choice(bob_images)
             self.end_pic = selected_bob
             sound = pygame.mixer.Sound(self.seeitcoming)
             sound.set_volume(0.05)
             channel = sound.play()
         else:
-            self.end_pic = self.cow1
+            self.end_pic = self.beer
             sound = pygame.mixer.Sound(self.symphony)
             sound.set_volume(0.05)
             channel = sound.play()
@@ -244,6 +243,13 @@ class MAIN:
             self.end_is_playing = False
             self.snake.reset()
 
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 pygame.mixer.pre_init(44100, -16, 2, 512)
 pygame.init()
@@ -251,8 +257,8 @@ cell_size = 40
 cell_number = 20
 screen = pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size))
 clock = pygame.time.Clock()
-apple = pygame.image.load('Graphics/apple.png').convert_alpha()
-game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf', 25)
+apple = pygame.image.load(resource_path('Graphics/apple.png')).convert_alpha()
+game_font = pygame.font.Font(resource_path('Font/PoetsenOne-Regular.ttf'), 25)
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE, 150)
