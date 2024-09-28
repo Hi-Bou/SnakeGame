@@ -1,8 +1,8 @@
-from asyncio import wait_for
-from getpass import fallback_getpass
-from time import sleep
+import time
+from math import trunc
 
 import pygame, sys, random
+from pygame import K_SPACE
 from pygame.math import Vector2
 
 class SNAKE:
@@ -106,9 +106,12 @@ class SNAKE:
         self.crunch_sound.play()
 
     def reset(self):
-        self.alive = True
+        pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size), flags=pygame.RESIZABLE)
+        self.end_is_playing = False
         self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
         self.direction = Vector2(0, 0)
+        self.alive = True
+        print(self.alive + self.end_is_playing)
 
 class FRUIT:
     def __init__(self):
@@ -128,7 +131,7 @@ class MAIN:
         self.snake = SNAKE()
         self.fruit = FRUIT()
         self.load_files()
-        self.end_playing = False
+        self.end_is_playing = False
 
     def update(self):
         self.snake.move_snake()
@@ -171,7 +174,7 @@ class MAIN:
                 self.fruit.randomize()
 
     def check_fail(self):
-        if not (self.snake.alive and self.snake.game_started):
+        if not(self.snake.alive and self.snake.game_started):
             return
         if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
             self.game_over()
@@ -179,37 +182,6 @@ class MAIN:
         for block in self.snake.body[1:]:
             if block == self.snake.body[0]:
                 self.game_over()
-
-    def game_over(self):
-        self.snake.alive = False
-        self.snake.game_started = False
-        self.end_is_playing = True
-        self.end()
-        if self.end_is_playing:
-            return
-        self.snake.reset()
-        print("hi")
-
-    def end(self):
-        chance = random.randint(0, 100)
-        if chance < 90:
-            bob_images = [self.bob1, self.bob2, self.bob3, self.bob4, self.bob5, self.bob6, self.bob7, self.bob8, self.bob9]
-            selected_bob = random.choice(bob_images)
-            self.end_pic = selected_bob
-            sound = pygame.mixer.Sound(self.seeitcoming)
-            sound.set_volume(0.05)
-            sound.play()
-        else:
-            self.end_pic = self.cow1
-            sound = pygame.mixer.Sound(self.symphony)
-            sound.set_volume(0.05)
-            sound.play()
-
-    def draw_end(self):
-        left = (screen.get_width() - self.end_pic.get_width()) // 2
-        top = (screen.get_height() - self.end_pic.get_height()) // 2
-        end_rect = pygame.Rect(left, top, screen.get_width(), screen.get_height())
-        screen.blit(self.end_pic, end_rect)
 
     def draw_grass(self):
         grass_color = (167, 209, 61)
@@ -239,6 +211,38 @@ class MAIN:
         screen.blit(score_surface, score_rect)
         screen.blit(apple, apple_rect)
         pygame.draw.rect(screen, (56, 74, 12), bg_rect, 2)
+
+    def game_over(self):
+        pygame.display.set_mode((cell_number * cell_size, cell_number * cell_size), flags=pygame.NOFRAME)
+        self.snake.alive = False
+        self.snake.game_started = False
+        self.end_is_playing = True
+        self.channel = self.end()
+
+    def end(self):
+        chance = random.randint(0, 100)
+        if chance < 90:
+            bob_images = [self.bob1, self.bob2, self.bob3, self.bob4, self.bob5, self.bob6, self.bob7, self.bob8, self.bob9]
+            selected_bob = random.choice(bob_images)
+            self.end_pic = selected_bob
+            sound = pygame.mixer.Sound(self.seeitcoming)
+            sound.set_volume(0.05)
+            channel = sound.play()
+        else:
+            self.end_pic = self.cow1
+            sound = pygame.mixer.Sound(self.symphony)
+            sound.set_volume(0.05)
+            channel = sound.play()
+        return channel
+
+    def do_end(self):
+        left = (screen.get_width() - self.end_pic.get_width()) // 2
+        top = (screen.get_height() - self.end_pic.get_height()) // 2
+        end_rect = pygame.Rect(left, top, screen.get_width(), screen.get_height())
+        screen.blit(self.end_pic, end_rect)
+        if not self.channel.get_busy():
+            self.end_is_playing = False
+            self.snake.reset()
 
 
 pygame.mixer.pre_init(44100, -16, 2, 512)
@@ -278,9 +282,8 @@ while True:
                     main_game.snake.direction = Vector2(-1, 0)
 
     screen.fill((175, 215, 70))
-    if not main_game.snake.alive and not main_game.snake.game_started:
-        main_game.draw_end()
-        print("draw")
+    if main_game.end_is_playing:
+        main_game.do_end()
     else:
         main_game.draw_elements()
     pygame.display.update()
